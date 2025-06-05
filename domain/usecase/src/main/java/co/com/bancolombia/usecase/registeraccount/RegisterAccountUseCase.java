@@ -12,7 +12,6 @@ public class RegisterAccountUseCase {
 
     public Mono<Account> register(String name){
         Account acount = Account.builder()
-                .id(99L)
                 .name(name)
                 .build();
 
