@@ -1,5 +1,6 @@
 package co.com.bancolombia.api;
 
+import co.com.bancolombia.api.dto.NameAccountDto;
 import co.com.bancolombia.model.account.Account;
 import co.com.bancolombia.usecase.registeraccount.RegisterAccountUseCase;
 import lombok.RequiredArgsConstructor;
@@ -19,9 +20,14 @@ private  final RegisterAccountUseCase useCase;
         return ServerResponse.ok().bodyValue("HELLO");
     }
 
-    public Mono<ServerResponse> listenGETOtherUseCase(ServerRequest serverRequest) {
-        Mono<Account> resp = useCase.register("foo");
-        return ServerResponse.ok().body(resp, Account.class);
+    public Mono<ServerResponse> listenPostOtherUseCase(ServerRequest serverRequest) {
+
+        serverRequest.bodyToMono(NameAccountDto.class)
+                .flatMap(nameAccountDto -> useCase.register(nameAccountDto.getName()));
+        return ServerResponse.ok().bodyValue("HELLO");
+
+        //Mono<Account> resp = useCase.register("foo");
+        //return ServerResponse.ok().body(resp, Account.class);
     }
 
     public Mono<ServerResponse> listenPOSTUseCase(ServerRequest serverRequest) {
